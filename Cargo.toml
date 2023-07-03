@@ -1,0 +1,9 @@
+[package]
+name = "chesseckers"
+version = "0.1.0"
+edition = "2021"
+description = "A game where one player plays chess and the other plays checkers - played over websockets"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
