@@ -1,12 +1,44 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 
-
-pub(super) trait Piece {
-
+#[derive(Debug)]
+pub(super) enum Piece {
+  ChessPiece(ChessPiece),
+  CheckersPiece(CheckersPiece)
 }
 
-impl Debug for dyn Piece {
+#[derive(Debug)]
+pub(super) enum ChessPiece {
+  Pawn,
+}
+
+#[derive(Debug)]
+pub(super) enum CheckersPiece {
+  Stone,
+  King
+}
+
+impl Display for Piece {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-    write!(f, "piece")
+    match *self {
+      Self::ChessPiece(ref chess_piece) => write!(f, "C{}", chess_piece),
+      Self::CheckersPiece(ref checkers_piece) => write!(f, "X{}", checkers_piece)
+    }
+  }
+}
+
+impl Display for ChessPiece {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    write!(f, "{}", match *self {
+      Self::Pawn => "p"
+    })
+  }
+}
+
+impl Display for CheckersPiece {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    write!(f, "{}", match *self {
+      Self::Stone => "o",
+      Self::King => "O"
+    })
   }
 }
