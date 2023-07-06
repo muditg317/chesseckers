@@ -81,7 +81,7 @@ impl PieceTrait<(&str,)> for ChessPiece {
               _ => return Err(PieceMovementError { reason: format!("Pawn cannot move {} spaces", from.0.abs_diff(to.0)) })
             }
           },
-          Some(to_take) => {
+          Some(_) => {
             if rows_moved == dir && from.1.abs_diff(to.1) == 1 {
               return Ok(());
             } else {
@@ -99,8 +99,42 @@ impl PieceTrait<()> for CheckersPiece {
     Piece::CheckersPiece(CheckersPiece::Stone { origin })
   }
   fn move_test(&self, from: (usize,usize), to: (usize,usize), to_take_opt: &Option<Box<Piece>>) -> MoveTestResult {
-    todo!("move for checkers not impl");
+    // todo!("move for checkers not impl");
     // Ok(())
+    match *self {
+      Self::Stone { origin } => {
+        let dir = if origin.0 <= 2 { 1 } else { -1 };
+        let rows_moved = to.0 as i32 - from.0 as i32;
+        let cols_moved = to.1 as i32 - from.1 as i32;
+        if rows_moved == 0 || cols_moved == 0 {
+          return Err(PieceMovementError { reason: format!("Stones must move diagonally forward by exactly 1 tile - not {} forward and {} lateral", from.0.abs_diff(to.0), from.1.abs_diff(to.1)) });
+        }
+        if (rows_moved < 0) != (dir < 0) {
+          return Err(PieceMovementError { reason: format!("Stone cannot move backwards ({} spaces)", from.0.abs_diff(to.0)) });
+        }
+        if rows_moved != dir {
+          return Err(PieceMovementError { reason: format!("Stone cannot move {} spaces forward", from.0.abs_diff(to.0)) });
+        }
+        if from.1.abs_diff(to.1) != 1 {
+          return Err(PieceMovementError { reason: format!("Stone must move exactly 1 space left/right (tried {})", from.1.abs_diff(to.1)) })
+        }
+        Ok(())
+      },
+      Self::King { .. } => {
+        let rows_moved = from.0.abs_diff(to.0);
+        let cols_moved = from.1.abs_diff(to.1);
+        if rows_moved == 0 || cols_moved == 0 {
+          return Err(PieceMovementError { reason: format!("King must move diagonally by exactly 1 tile - not {} forward/backward and {} lateral", rows_moved, cols_moved) });
+        }
+        if rows_moved != 1 {
+          return Err(PieceMovementError { reason: format!("King must move exactly 1 space forward/backward (tried {})", rows_moved) });
+        }
+        if cols_moved != 1 {
+          return Err(PieceMovementError { reason: format!("Stone must move exactly 1 space left/right (tried {})", cols_moved) })
+        }
+        Ok(())
+      }
+    }
   }
 }
 

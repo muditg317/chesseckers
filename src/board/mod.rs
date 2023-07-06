@@ -14,7 +14,8 @@ const BOARD_SIZE: usize = 8;
 
 pub struct Board {
   size: usize,
-  data: [[Position; BOARD_SIZE]; BOARD_SIZE] // (0,0) top left of board
+  data: [[Position; BOARD_SIZE]; BOARD_SIZE], // (0,0) top left of board
+  next_turn_player: Player
 }
 
 #[derive(Debug)]
@@ -50,6 +51,7 @@ impl Board {
    * first Turn player pieces on bottom
    */
   pub fn reset(&mut self, first: Player) -> Result<(), position::PieceCreationError> {
+    self.next_turn_player = first;
     for r in 0..self.size {
       for c in 0..self.size {
         self[(r,c)].clear();
@@ -78,6 +80,10 @@ impl Board {
   }
 
   fn move_helper(&self, player: Player, from: (usize,usize), to: (usize,usize)) -> Result<&Box<Piece>, MoveError> {
+    if player != self.next_turn_player {
+      return Err(MoveError { reason: format!("not {player:?} player's turn") });
+    }
+
     if !(0..self.size).contains(&from.0) || !(0..self.size).contains(&from.1) {
       return Err(MoveError { reason: format!("cannot move from {from:?}  -- not on board!") });
     }
@@ -121,6 +127,10 @@ impl Board {
       Some(())
     });
     self[to].piece_ref().on_moved(from, to);
+    self.next_turn_player = match self.next_turn_player {
+      Player::Chess => Player::Checkers,
+      Player::Checkers => Player::Chess
+    };
     Ok(())
   }
 
@@ -130,7 +140,8 @@ impl Default for Board {
   fn default() -> Self {
     Board {
       size: BOARD_SIZE,
-      data: std::array::from_fn::<_,BOARD_SIZE,_>(|r| std::array::from_fn::<_,BOARD_SIZE,_>(|c| Position::new(r,c)))
+      data: std::array::from_fn::<_,BOARD_SIZE,_>(|r| std::array::from_fn::<_,BOARD_SIZE,_>(|c| Position::new(r,c))),
+      next_turn_player: Player::Chess
     }
   }
 }
