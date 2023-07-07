@@ -1,9 +1,9 @@
-use crate::board::piece::Piece;
+use super::piece::Piece;
 
 
 use std::fmt::Display;
 
-use super::player::Player;
+use super::Player;
 
 #[derive(Debug)]
 pub struct Position {
