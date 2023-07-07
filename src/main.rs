@@ -18,7 +18,7 @@ fn main() -> Result<(), Box<dyn Error + 'static>> {
   board.print();
   board.make_move(Player::Chess, (6,1), (4,1))?;
   board.print();
-  board.make_move(Player::Checkers, (3,0), (2,1))?;
+  board.make_move(Player::Checkers, (3,0), (4,1))?;
   board.print();
   board.make_move(Player::Chess, (2,1), (1,0))?;
   board.print();

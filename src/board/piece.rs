@@ -18,11 +18,16 @@ impl Display for PieceMovementError {
   }
 }
 impl Error for PieceMovementError {}
-type MoveTestResult = Result<(), PieceMovementError>;
+pub(super) struct MoveResult {
+
+}
+type MoveTestResult = Result<(), PieceMovementError>; // optional coords of piece to capture
+
+// type BoardInspectFn = impl Fn((usize,usize)) -> &'static Option<Box<Piece>>;
 
 pub(super) trait PieceTrait<InitArgs> {
   fn new_piece(origin: (usize,usize), args: InitArgs) -> Piece;
-  fn move_test(&self, from: (usize,usize), to: (usize,usize), to_take_opt: &Option<Box<Piece>>) -> MoveTestResult;
+  fn move_test<'a>(&self, from: (usize,usize), to: (usize,usize), inspect_board: impl Fn((usize,usize)) -> &'a Option<Box<Piece>>) -> MoveTestResult;
 }
 
 #[derive(Debug)]
@@ -43,10 +48,10 @@ pub(super) enum CheckersPiece {
 }
 
 impl Piece {
-  pub(crate) fn move_test(&self, from: (usize, usize), to: (usize, usize), to_take_opt: &Option<Box<Piece>>) -> MoveTestResult {
+  pub(crate) fn move_test<'a>(&self, from: (usize, usize), to: (usize, usize), inspect_board: impl Fn((usize,usize)) -> &'a Option<Box<Piece>>) -> MoveTestResult {
     match *self {
-      Piece::ChessPiece(ref chess_piece) => chess_piece.move_test(from, to, to_take_opt),
-      Piece::CheckersPiece(ref checkers_piece) => checkers_piece.move_test(from, to, to_take_opt)
+      Piece::ChessPiece(ref chess_piece) => chess_piece.move_test(from, to, inspect_board),
+      Piece::CheckersPiece(ref checkers_piece) => checkers_piece.move_test(from, to, inspect_board)
     }
   }
   pub(super) fn on_moved(&self, from: (usize,usize), to: (usize,usize)) {
@@ -65,12 +70,13 @@ impl PieceTrait<(&str,)> for ChessPiece {
     }
   }
 
-  fn move_test(&self, from: (usize, usize), to: (usize, usize), to_take_opt: &Option<Box<Piece>>) -> MoveTestResult {
+  fn move_test<'a>(&self, from: (usize, usize), to: (usize, usize), inspect_board: impl Fn((usize,usize)) -> &'a Option<Box<Piece>>) -> MoveTestResult {
+    let piece_at_dest = inspect_board(to);
     match *self {
       Self::Pawn { origin } => {
         let dir = if origin.0 <= 2 { 1 } else { -1 };
         let rows_moved = to.0 as i32 - from.0 as i32;
-        match to_take_opt {
+        match piece_at_dest {
           None => {
             if from.1 != to.1 {
               return Err(PieceMovementError{reason: format!("Pawn cannot change columns {} -> {}", from.1, to.1)});
@@ -98,9 +104,12 @@ impl PieceTrait<()> for CheckersPiece {
   fn new_piece(origin: (usize,usize), _args: ()) -> Piece {
     Piece::CheckersPiece(CheckersPiece::Stone { origin })
   }
-  fn move_test(&self, from: (usize,usize), to: (usize,usize), to_take_opt: &Option<Box<Piece>>) -> MoveTestResult {
-    // todo!("move for checkers not impl");
-    // Ok(())
+  fn move_test<'a>(&self, from: (usize,usize), to: (usize,usize), inspect_board: impl Fn((usize,usize)) -> &'a Option<Box<Piece>>) -> MoveTestResult {
+    let piece_at_dest = inspect_board(to);
+    match piece_at_dest {
+      Some(piece) => return Err(PieceMovementError { reason: format!("Checkers piece cannot move onto enemy {piece:?} at {to:?}, must jump over") }),
+      None => ()
+    }
     match *self {
       Self::Stone { origin } => {
         let dir = if origin.0 <= 2 { 1 } else { -1 };
@@ -110,13 +119,13 @@ impl PieceTrait<()> for CheckersPiece {
           return Err(PieceMovementError { reason: format!("Stones must move diagonally forward by exactly 1 tile - not {} forward and {} lateral", from.0.abs_diff(to.0), from.1.abs_diff(to.1)) });
         }
         if (rows_moved < 0) != (dir < 0) {
-          return Err(PieceMovementError { reason: format!("Stone cannot move backwards ({} spaces)", from.0.abs_diff(to.0)) });
+          return Err(PieceMovementError { reason: format!("Stone cannot move backwards {} spaces ({from:?} -> {to:?})", from.0.abs_diff(to.0)) });
         }
         if rows_moved != dir {
-          return Err(PieceMovementError { reason: format!("Stone cannot move {} spaces forward", from.0.abs_diff(to.0)) });
+          return Err(PieceMovementError { reason: format!("Stone cannot move {} spaces forward ({from:?} -> {to:?})", from.0.abs_diff(to.0)) });
         }
         if from.1.abs_diff(to.1) != 1 {
-          return Err(PieceMovementError { reason: format!("Stone must move exactly 1 space left/right (tried {})", from.1.abs_diff(to.1)) })
+          return Err(PieceMovementError { reason: format!("Stone must move exactly 1 space left/right, not {} ({from:?} -> {to:?})", from.1.abs_diff(to.1)) })
         }
         Ok(())
       },

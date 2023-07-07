@@ -101,25 +101,18 @@ impl Board {
     if !self[from].owned_by(player) {
       return Err(MoveError { reason: format!("piece at {from:?} doesn't belong to {player:?} player") });
     }
-    // match (&player, self[from].piece_ref()) {
-    //   (&Player::Chess, Piece::CheckersPiece(_)) | (&Player::Checkers, Piece::ChessPiece(_)) => return Err(MoveError { reason: format!("piece at {:?} doesn't belong to {:?} player", from, player) }),
-    //     _ => ()
-    // }
+    
     if !self[to].is_empty() && self[to].owned_by(player) {
-      return Err(MoveError { reason: format!("cannot move to {to:?} -- {player:?} player owns piece ({}) at target", self[to]) });
+      return Err(MoveError { reason: format!("cannot capture {} piece at {to:?} -- {player:?} player already owns piece", self[to]) });
     }
-    // if self[to].is_empty() {
-    //   let piece = self[from].remove();
-    //   // self[to].set(piece);
-    //   return Ok((self[to].set(piece), None));
-    // } else { // 
-
-    // }
+    
     Ok(self[from].piece_ref())
   }
 
   pub fn make_move(&mut self, player: Player, from: (usize,usize), to: (usize,usize)) -> Result<(), Box<dyn Error>> {
-    self.move_helper(player, from, to)?.move_test(from, to, &self[to].piece)?;
+    self.move_helper(player, from, to)?.move_test(from, to, &|coords: (usize,usize)| {
+      &self[coords].piece
+    })?; // self::Index::index
 
     let moved_piece = self[from].remove();
     self[to].replace(moved_piece).and_then(|mut taken| {
