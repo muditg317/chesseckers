@@ -150,13 +150,12 @@ impl Board {
         if !self[pos].is_empty() && self[pos].owned_by(player) {
           self.next_moves.add_moves(&mut self[pos].piece_ref().as_ref().get_valid_moves(pos, |coords| {
             self.inspect(coords)
-            // match self.inspect(coords) {
-            //   Ok(piece) => piece,
-            //   Err(err) => panic!("{err:?}")
-            // }
           }));
         }
       }
+    }
+    if player == Player::Checkers {
+      self.next_moves.filter_captures_if_present();
     }
     self.next_moves.clone()
   }
@@ -171,12 +170,12 @@ impl Board {
     let mut final_pos = chosen_move.from;
     for (dst, opt_capture) in &chosen_move.movements {
       // TODO: call render callback after each frame of movement
-      let moved_piece = self[final_pos].remove();
-      let _ = self[*dst].replace(moved_piece);
       opt_capture.and_then(|capture_loc| {
-        self[capture_loc].remove().as_mut().on_taken(capture_loc, &self[*dst].piece_ref());
+        self[capture_loc].remove().as_mut().on_taken(capture_loc, self[final_pos].piece_ref());
         Some(())
       });
+      let moved_piece = self[final_pos].remove();
+      let _ = self[*dst].replace(moved_piece);
       final_pos = *dst;
       // moved_piece = self[final_pos].remove();
     }

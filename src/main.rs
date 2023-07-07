@@ -2,6 +2,7 @@ mod board;
 
 use std::{error::Error, thread::sleep, time::Duration};
 
+use rand;
 
 use crate::board::{Player,Board,MoveData};
 
@@ -24,10 +25,15 @@ fn main() -> Result<(), Box<dyn Error + 'static>> {
   // board.print();
   loop {
     // println!("next available moves: {:?}", moves);
-    moves = board.exec_move(&moves[0].clone())?;
+    let num_opts = moves.num_moves();
+    if num_opts == 0 {
+      break;
+    }
+    let choice = rand::random::<usize>() % num_opts;
+    moves = board.exec_move(&moves[choice].clone())?;
     board.print();
     sleep(Duration::from_millis(700));
   }
 
-  // Ok(())
+  Ok(())
 }
