@@ -6,18 +6,16 @@ mod utils;
 
 use std::{ops::{Index, IndexMut}, error::Error, fmt::Display};
 
-use crate::board::position::Position;
+pub use self::{player::Player, moves::{MoveData, MovementEntry}};
 
-pub use self::player::Player;
-
-use self::{piece::{Piece, ChessPiece, PieceTrait, CheckersPiece}, utils::BoardCoord, moves::{MoveData, MovementEntry, Moveable}};
+use self::{position::Position, piece::{Piece, ChessPiece, PieceTrait, CheckersPiece}, utils::BoardCoord, moves::Moveable};
 
 const BOARD_SIZE: usize = 8;
 
 pub struct Board {
   size: usize,
   data: [[Position; BOARD_SIZE]; BOARD_SIZE], // (0,0) top left of board
-  next_turn_player: Player
+  next_moves: MoveData
 }
 
 #[derive(Debug)]
@@ -54,8 +52,12 @@ impl Board {
    * reset the board state
    * first Turn player pieces on bottom
    */
-  pub fn reset(&mut self, first: Player) -> Result<(), position::PieceCreationError> {
-    self.next_turn_player = first.other();
+  pub fn reset(&mut self, first: Player) -> Result<MoveData, position::PieceCreationError> {
+    let chess_dir = match first {
+      Player::Chess => -1,
+      Player::Checkers => 1
+    };
+    let checkers_dir = chess_dir * -1;
     for r in 0..self.size {
       for c in 0..self.size {
         self[(r,c)].clear();
@@ -66,7 +68,7 @@ impl Board {
       Player::Checkers => (0, 1)
     };
     for c in 0..self.size {
-      self[(chess_pawn_row,c)].create_piece(Box::new(ChessPiece::new_piece((chess_pawn_row,c), ("pawn",))))?;
+      self[(chess_pawn_row,c)].create_piece(Box::new(ChessPiece::new_piece((chess_pawn_row,c), chess_dir, ("pawn",))))?;
     }
     let (checkers_row_start, checkers_row_incr) = match first {
       Player::Chess => (0isize,1isize),
@@ -77,14 +79,14 @@ impl Board {
       // let half_size = self.size/2;
       for c in 0..self.size/2 {
         let checkers_col = c*2 + 1-r%2;
-        self[(checkers_row as usize, checkers_col)].create_piece(Box::new(CheckersPiece::new_piece((checkers_row as usize, checkers_col), ())))?;
+        self[(checkers_row as usize, checkers_col)].create_piece(Box::new(CheckersPiece::new_piece((checkers_row as usize, checkers_col), checkers_dir, ())))?;
       }
     }
-    Ok(())
+    Ok(self.update_next_move_set(first))
   }
 
   // fn move_helper(&self, player: Player, from: BoardCoord, to: BoardCoord) -> Result<&Box<Piece>, MoveError> {
-  //   if player != self.next_turn_player {
+  //   if player != player {
   //     return Err(MoveError { reason: format!("not {player:?} player's turn") });
   //   }
 
@@ -124,7 +126,7 @@ impl Board {
   //     Some(())
   //   });
   //   self[to].piece_ref().on_moved(from, to);
-  //   self.next_turn_player = match self.next_turn_player {
+  //   player = match player {
   //     Player::Chess => Player::Checkers,
   //     Player::Checkers => Player::Chess
   //   };
@@ -140,13 +142,13 @@ impl Board {
     if self.on_board(coords) { Ok(&self[coords].piece) } else { Err(MoveError { reason: String::from("out of bounds!") }.into()) }
   }
 
-  pub fn get_next_move_set(&self) -> MoveData {
-    let mut move_set = MoveData::new(self.next_turn_player);
+  fn update_next_move_set(&mut self, player: Player) -> MoveData {
+    self.next_moves = MoveData::new(player);
     for r in 0..self.size {
       for c in 0..self.size {
         let pos = (r,c);
-        if !self[pos].is_empty() && self[pos].owned_by(self.next_turn_player) {
-          move_set.add_moves(&mut self[pos].piece_ref().as_ref().get_valid_moves(pos, |coords| {
+        if !self[pos].is_empty() && self[pos].owned_by(player) {
+          self.next_moves.add_moves(&mut self[pos].piece_ref().as_ref().get_valid_moves(pos, |coords| {
             self.inspect(coords)
             // match self.inspect(coords) {
             //   Ok(piece) => piece,
@@ -156,11 +158,44 @@ impl Board {
         }
       }
     }
-    move_set
+    self.next_moves.clone()
   }
-  pub fn exec_move(&mut self, chosen_move: &MovementEntry) -> Result<(), Box<dyn Error>> {
-    todo!("exec move not implemented!");
+  pub fn exec_move(&mut self, chosen_move: &MovementEntry) -> Result<MoveData, Box<dyn Error>> {
+    if !self.next_moves.contains(chosen_move) {
+      return Err(MoveError { reason: format!("chosen move not valid! tried: {chosen_move:?} - options: {:?}", self.next_moves) }.into());
+    }
+
+
+    
+    // let mut moved_piece = self[chosen_move.from].remove();
+    let mut final_pos = chosen_move.from;
+    for (dst, opt_capture) in &chosen_move.movements {
+      // TODO: call render callback after each frame of movement
+      let moved_piece = self[final_pos].remove();
+      let _ = self[*dst].replace(moved_piece);
+      opt_capture.and_then(|capture_loc| {
+        self[capture_loc].remove().as_mut().on_taken(capture_loc, &self[*dst].piece_ref());
+        Some(())
+      });
+      final_pos = *dst;
+      // moved_piece = self[final_pos].remove();
+    }
+
+    // let moved_piece = self[from].remove();
+    // self[to].replace(moved_piece).and_then(|mut taken| {
+    //   taken.as_mut().on_taken(to, self[to].piece_ref());
+    //   Some(())
+    // });
+    // self[to].piece_ref().on_moved(from, to);
+    self[final_pos].piece_ref().on_moved(chosen_move.from, final_pos);
+
+    Ok(self.update_next_move_set(self.next_moves.player.other()))
+    // todo!("exec move not implemented!");
   }
+
+  // pub(crate) fn get_available_moves(&self) -> MoveData {
+  //   &self.next_moves
+  // }
 
 }
 
@@ -169,7 +204,7 @@ impl Default for Board {
     Board {
       size: BOARD_SIZE,
       data: std::array::from_fn::<_,BOARD_SIZE,_>(|r| std::array::from_fn::<_,BOARD_SIZE,_>(|c| Position::new(r,c))),
-      next_turn_player: Player::Chess
+      next_moves: Default::default()
     }
   }
 }

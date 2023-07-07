@@ -3,15 +3,15 @@ use std::{fmt::{Debug, Display}, error::Error};
 use super::{utils::{BoardCoord, BoardCoordS}, moves::{Moveable, MovementEntry}, Player};
 
 #[derive(Debug)]
-pub(crate) enum Piece {
+pub(super) enum Piece {
   // ChessPiece(BoardCoord,ChessPiece),
   ChessPiece(ChessPiece),
   CheckersPiece(CheckersPiece)
 }
 
 #[derive(Debug)]
-pub(crate) struct PieceMovementError {
-  pub(crate) reason: String
+pub(super) struct PieceMovementError {
+  pub(super) reason: String
 }
 
 impl Display for PieceMovementError {
@@ -20,38 +20,41 @@ impl Display for PieceMovementError {
   }
 }
 impl Error for PieceMovementError {}
-pub(crate) struct MoveResult {
+pub(super) struct MoveResult {
 
 }
 type MoveTestResult = Result<(), PieceMovementError>; // optional coords of piece to capture
 
 // type BoardInspectFn = impl Fn(BoardCoord) -> &'static Option<Box<Piece>>;
 
-pub(crate) trait PieceTrait<InitArgs>: Moveable {
-  fn new_piece(origin: BoardCoord, args: InitArgs) -> Piece;
+pub(super) trait PieceTrait<InitArgs>: Moveable {
+  fn new_piece(origin: BoardCoord, forward_dir: isize, args: InitArgs) -> Piece;
   fn get_forward_dir(&self) -> isize;
   // fn move_test<'a>(&self, from: BoardCoord, to: BoardCoord, inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> MoveTestResult;
 }
 
 #[derive(Debug)]
-pub(crate) enum ChessPiece {
+pub(super) enum ChessPiece {
   Pawn {
     origin: BoardCoord,
+    forward_dir: isize
   },
 }
 
 #[derive(Debug)]
-pub(crate) enum CheckersPiece {
+pub(super) enum CheckersPiece {
   Stone {
     origin: BoardCoord,
+    forward_dir: isize
   },
   King {
     origin: BoardCoord,
+    forward_dir: isize
   }
 }
 
 impl Piece {
-  // pub(crate) fn move_test<'a>(&self, from: (usize, usize), to: (usize, usize), inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> MoveTestResult {
+  // pub(super) fn move_test<'a>(&self, from: (usize, usize), to: (usize, usize), inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> MoveTestResult {
   //   match *self {
   //     Piece::ChessPiece(ref chess_piece) => chess_piece.move_test(from, to, inspect_board),
   //     Piece::CheckersPiece(ref checkers_piece) => checkers_piece.move_test(from, to, inspect_board)
@@ -63,67 +66,37 @@ impl Piece {
       Self::CheckersPiece(_) => Player::Checkers
     }
   }
-  pub(crate) fn on_moved(&self, from: BoardCoord, to: BoardCoord) {
+  pub(super) fn on_moved(&self, from: BoardCoord, to: BoardCoord) {
     println!("{self} moved from {from:?} to {to:?}");
   }
-  pub(crate) fn on_taken(&self, death_loc: BoardCoord, by: &Box<Piece>) {
+  pub(super) fn on_taken(&self, death_loc: BoardCoord, by: &Box<Piece>) {
     println!("{self} at {death_loc:?} taken by {by}");
   }
 }
 
 impl PieceTrait<(&str,)> for ChessPiece {
-  fn new_piece(origin: BoardCoord, (piece_type,): (&str,)) -> Piece {
+  fn new_piece(origin: BoardCoord, forward_dir: isize, (piece_type,): (&str,)) -> Piece {
     match piece_type {
-      "pawn" => Piece::ChessPiece(ChessPiece::Pawn { origin }),
+      "pawn" => Piece::ChessPiece(ChessPiece::Pawn { origin, forward_dir }),
       _ => panic!("unkown piece type! got: {piece_type}")
     }
   }
 
   fn get_forward_dir(&self) -> isize {
     match *self {
-      Self::Pawn { origin } => if origin.0 <= 2 { 1 } else { -1 }
+      Self::Pawn { forward_dir, .. } => forward_dir
     }
   }
-
-  // fn move_test<'a>(&self, from: (usize, usize), to: (usize, usize), inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> MoveTestResult {
-  //   let piece_at_dest = inspect_board(to);
-  //   match *self {
-  //     Self::Pawn { origin } => {
-  //       let dir = if origin.0 <= 2 { 1 } else { -1 };
-  //       let rows_moved = to.0 as i32 - from.0 as i32;
-  //       match piece_at_dest {
-  //         None => {
-  //           if from.1 != to.1 {
-  //             return Err(PieceMovementError{reason: format!("Pawn cannot change columns {} -> {}", from.1, to.1)});
-  //           }
-  //           match rows_moved {
-  //             diff if diff == dir => return Ok(()),
-  //             diff if from == origin && diff == dir*2 => return Ok(()),
-  //             _ => return Err(PieceMovementError { reason: format!("Pawn cannot move {} spaces", from.0.abs_diff(to.0)) })
-  //           }
-  //         },
-  //         Some(_) => {
-  //           if rows_moved == dir && from.1.abs_diff(to.1) == 1 {
-  //             return Ok(());
-  //           } else {
-  //             return Err(PieceMovementError { reason: format!("Pawn cannot capture enemy at {to:?}") });
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 impl PieceTrait<()> for CheckersPiece {
-  fn new_piece(origin: BoardCoord, _args: ()) -> Piece {
-    Piece::CheckersPiece(CheckersPiece::Stone { origin })
+  fn new_piece(origin: BoardCoord, forward_dir: isize, _args: ()) -> Piece {
+    Piece::CheckersPiece(CheckersPiece::Stone { origin, forward_dir })
   }
-
   fn get_forward_dir(&self) -> isize {
-      match *self {
-        Self::Stone { origin } | Self::King { origin } => if origin.0 <= 2 { 1 } else { -1 }
-      }
+    match *self {
+      Self::Stone { forward_dir, .. } | Self::King { forward_dir, .. } => forward_dir
+    }
   }
   
   // fn move_test<'a>(&self, from: BoardCoord, to: BoardCoord, inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> MoveTestResult {
@@ -134,16 +107,16 @@ impl PieceTrait<()> for CheckersPiece {
   //   }
   //   match *self {
   //     Self::Stone { origin } => {
-  //       let dir = if origin.0 <= 2 { 1 } else { -1 };
+  //       let forward_dir = if origin.0 <= 2 { 1 } else { -1 };
   //       let rows_moved = to.0 as i32 - from.0 as i32;
   //       let cols_moved = to.1 as i32 - from.1 as i32;
   //       if rows_moved == 0 || cols_moved == 0 {
   //         return Err(PieceMovementError { reason: format!("Stones must move diagonally forward by exactly 1 tile - not {} forward and {} lateral", from.0.abs_diff(to.0), from.1.abs_diff(to.1)) });
   //       }
-  //       if (rows_moved < 0) != (dir < 0) {
+  //       if (rows_moved < 0) != (forward_dir < 0) {
   //         return Err(PieceMovementError { reason: format!("Stone cannot move backwards {} spaces ({from:?} -> {to:?})", from.0.abs_diff(to.0)) });
   //       }
-  //       if rows_moved != dir {
+  //       if rows_moved != forward_dir {
   //         return Err(PieceMovementError { reason: format!("Stone cannot move {} spaces forward ({from:?} -> {to:?})", from.0.abs_diff(to.0)) });
   //       }
   //       if from.1.abs_diff(to.1) != 1 {
@@ -202,16 +175,15 @@ fn add_capture_if_owned_by<'a>(moves: &mut Vec<MovementEntry>, from: BoardCoord,
 
 impl Moveable for ChessPiece {
   fn get_valid_moves<'a>(&self, from: BoardCoord, inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> Vec<MovementEntry> {
-    let dir = self.get_forward_dir();
     let mut result: Vec<MovementEntry> = Default::default();
     match *self {
-      Self::Pawn { origin } => {
-        let can_step = add_direct_movement_if_free(&mut result, from, (dir,0), &inspect_board);
+      Self::Pawn { origin, forward_dir } => {
+        let can_step = add_direct_movement_if_free(&mut result, from, (forward_dir,0), &inspect_board);
         if can_step && from == origin {
-          add_direct_movement_if_free(&mut result, from, (dir*2,0), &inspect_board);
+          add_direct_movement_if_free(&mut result, from, (forward_dir*2,0), &inspect_board);
         }
-        add_capture_if_owned_by(&mut result, from, (dir, 1), Player::Checkers, &inspect_board);
-        add_capture_if_owned_by(&mut result, from, (dir,-1), Player::Checkers, &inspect_board);
+        add_capture_if_owned_by(&mut result, from, (forward_dir, 1), Player::Checkers, &inspect_board);
+        add_capture_if_owned_by(&mut result, from, (forward_dir,-1), Player::Checkers, &inspect_board);
       }
     }
     result
@@ -219,13 +191,13 @@ impl Moveable for ChessPiece {
 }
 impl Moveable for CheckersPiece {
   fn get_valid_moves<'a>(&self, from: BoardCoord, inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> Vec<MovementEntry> {
-    let dir = self.get_forward_dir();
+    let forward_dir = self.get_forward_dir();
     let mut result: Vec<MovementEntry> = Default::default();
     // stone moves (added for king as well)
-    add_direct_movement_if_free(&mut result, from, (dir,1), &inspect_board);
-    add_direct_movement_if_free(&mut result, from, (dir,-1), &inspect_board);
+    add_direct_movement_if_free(&mut result, from, (forward_dir,1), &inspect_board);
+    add_direct_movement_if_free(&mut result, from, (forward_dir,-1), &inspect_board);
     match *self {
-      Self::King { origin } => {
+      Self::King { .. } => {
         // vec![]
       },
       _ => ()

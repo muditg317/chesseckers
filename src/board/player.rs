@@ -1,7 +1,7 @@
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Default)]
 pub enum Player {
-  Chess,
+  #[default] Chess,
   Checkers
 }
 

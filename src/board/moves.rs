@@ -2,35 +2,25 @@ use std::{error::Error, ops::Index};
 
 use super::{Player, utils::BoardCoord, piece::Piece};
 
-
-
-/**
- * move generation ideas
- * result type: 
- *   struct MoveData {
- *     player: Player,
- *     movements: [
- *       struct MovementEntry {
- *         from: BoardCoord
- *       }
- *     ]
- *   }
- */
-
-
-#[derive(Debug)]
+#[derive(Debug, Default, Clone)]
 pub struct MoveData {
-  player: Player,
-  movements: Vec<MovementEntry>
+  pub(super) player: Player,
+  movements: Vec<MovementEntry>,
+  promotion: Option<(BoardCoord, fn () -> Box<Piece>)>
+  // TODO: add promotions (from,Box<Piece>)
 }
 
 impl MoveData {
   pub(super) fn new(player: Player) -> Self {
-    Self { player, movements: Default::default() }
+    Self { player, movements: Default::default(), promotion: None }
   }
 
   pub(super) fn add_moves(&mut self, moves: &mut Vec<MovementEntry>) {
     self.movements.append(moves);
+  }
+
+  pub(super) fn contains(&self, movement: &MovementEntry) -> bool {
+    self.movements.contains(movement)
   }
 }
 
@@ -42,7 +32,7 @@ impl Index<usize> for MoveData {
   }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct MovementEntry {
   pub(super) from: BoardCoord,
   pub(super) movements: Vec<(BoardCoord,Option<BoardCoord>)> // Vec<(intermediate_dest, Option<intermediate_capture>)>
