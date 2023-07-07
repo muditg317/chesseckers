@@ -1,8 +1,8 @@
-use std::{fmt::{Debug, Display}, error::Error};
+use std::{fmt::{Debug, Display}, error::Error, time::Duration, thread::sleep};
 
 use super::{utils::{BoardCoord, BoardCoordS}, moves::{Moveable, MovementEntry}, Player};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub(super) enum Piece {
   // ChessPiece(BoardCoord,ChessPiece),
   ChessPiece(ChessPiece),
@@ -33,7 +33,7 @@ pub(super) trait PieceTrait<InitArgs>: Moveable {
   // fn move_test<'a>(&self, from: BoardCoord, to: BoardCoord, inspect_board: impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> MoveTestResult;
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub(super) enum ChessPiece {
   Pawn {
     origin: BoardCoord,
@@ -41,7 +41,7 @@ pub(super) enum ChessPiece {
   },
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub(super) enum CheckersPiece {
   Stone {
     origin: BoardCoord,
@@ -155,7 +155,7 @@ impl Moveable for Piece {
 fn add_direct_movement_if_free<'a>(moves: &mut Vec<MovementEntry>, from: BoardCoord, offset: (isize,isize), inspect_board: &impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> bool {
   let target = BoardCoordS::from(from) + offset;
   if inspect_board(target.into()).is_ok_and(Option::is_none) {
-    moves.push(MovementEntry { from, movements: vec![(target.into(),None)] });
+    moves.push(MovementEntry { from, movements: vec![(target.into(),None)], promotion: None });
     return true;
   }
   return false;
@@ -165,12 +165,67 @@ fn add_capture_if_owned_by<'a>(moves: &mut Vec<MovementEntry>, from: BoardCoord,
   let target = BoardCoordS::from(from) + offset;
   match inspect_board(target.into()).unwrap_or(&None) {
     Some(piece) if piece.get_owner() == enemy => {
-      moves.push(MovementEntry { from, movements: vec![(target.into(),Some(target.into()))] });
+      moves.push(MovementEntry { from, movements: vec![(target.into(),Some(target.into()))], promotion: None });
       return true;
     },
     Some(_) | None => false
   }
+}
 
+fn recursive_explore_checkers_captures<'a>(from: BoardCoord, valid_directions: &[isize], curr_moves: Vec<(BoardCoord,Option<BoardCoord>)>, inspect_board: &impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> Vec<MovementEntry> {
+  let mut result: Vec<MovementEntry> = Default::default();
+
+  let start = BoardCoordS::from(if curr_moves.len() > 0 { curr_moves.last().unwrap().0 } else { from });
+
+  let mut expanded = false;
+  for forward_offset in valid_directions {
+    for lateral_offset in [-1,1isize] {
+      let offset = (*forward_offset, lateral_offset);
+      let target = start + offset;
+      match inspect_board(target.into()).unwrap_or(&None) {
+        Some(piece) if piece.get_owner() == Player::Chess => {
+          // moves.push(MovementEntry { from, movements: vec![(target.into(),Some(target.into()))] });
+          // return true;
+          let dst = target + offset;
+          if inspect_board(dst.into()).is_ok_and(|opt_piece| opt_piece.is_none()) {
+            let mut new_moves = curr_moves.clone();
+            new_moves.push(((target+offset).into(), Some(target.into())));
+            // println!("expand possible capture {{ start: {from:?}, moves: {new_moves:?} }}");
+            // sleep(Duration::from_millis(500));
+            let mut new_captures = recursive_explore_checkers_captures(from, valid_directions, new_moves, inspect_board);
+            if !new_captures.is_empty() {
+              result.append(&mut new_captures);
+              expanded = true;
+            }
+          }
+        },
+        Some(_) | None => ()
+      }
+    }
+  }
+  if !expanded && curr_moves.len() > 0 {
+    result.push(MovementEntry { from: from, movements: curr_moves, promotion: None })
+  }
+
+  result
+}
+fn get_checkers_captures<'a>(from: BoardCoord, valid_directions: &[isize], inspect_board: &impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) -> Vec<MovementEntry> {
+  recursive_explore_checkers_captures(from, valid_directions, Default::default(), inspect_board)
+}
+fn denote_checkers_promotions<'a>(moves: &mut Vec<MovementEntry>, origin: BoardCoord, forward_dir: isize, inspect_board: &impl Fn(BoardCoord) -> Result<&'a Option<Box<Piece>>, Box<dyn Error>>) {
+  for movement in moves {
+    if inspect_board((BoardCoordS::from(movement.end_point()) + (forward_dir, 0)).into()).is_err() { // moving anymore forward from end point is on edge
+      // TODO: refactor above if statement to helper function
+
+      if movement.promotion.is_none() {
+        let _ = movement.promotion.insert((
+          movement.end_point(),
+          Box::new(Piece::CheckersPiece(CheckersPiece::King { origin, forward_dir }))
+        ));
+      }
+
+    }
+  }
 }
 
 impl Moveable for ChessPiece {
@@ -196,11 +251,14 @@ impl Moveable for CheckersPiece {
     // stone moves (added for king as well)
     add_direct_movement_if_free(&mut result, from, (forward_dir,1), &inspect_board);
     add_direct_movement_if_free(&mut result, from, (forward_dir,-1), &inspect_board);
+    result.append(&mut get_checkers_captures(from, &[forward_dir], &inspect_board));
     match *self {
       Self::King { .. } => {
         // vec![]
       },
-      _ => ()
+      Self::Stone { origin, forward_dir } => {
+        denote_checkers_promotions(&mut result, origin, forward_dir, &inspect_board);
+      }
     }
     result
   }

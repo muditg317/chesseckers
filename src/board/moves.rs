@@ -4,15 +4,13 @@ use super::{Player, utils::BoardCoord, piece::Piece};
 
 #[derive(Debug, Default, Clone)]
 pub struct MoveData {
-  pub(super) player: Player,
-  movements: Vec<MovementEntry>,
-  promotion: Option<(BoardCoord, fn () -> Box<Piece>)>
-  // TODO: add promotions (from,Box<Piece>)
+  pub(crate) player: Player,
+  movements: Vec<MovementEntry>
 }
 
 impl MoveData {
   pub(super) fn new(player: Player) -> Self {
-    Self { player, movements: Default::default(), promotion: None }
+    Self { player, movements: Default::default() }
   }
 
   pub(super) fn add_moves(&mut self, moves: &mut Vec<MovementEntry>) {
@@ -48,7 +46,8 @@ impl Index<usize> for MoveData {
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct MovementEntry {
   pub(super) from: BoardCoord,
-  pub(super) movements: Vec<(BoardCoord,Option<BoardCoord>)> // Vec<(intermediate_dest, Option<intermediate_capture>)>
+  pub(super) movements: Vec<(BoardCoord,Option<BoardCoord>)>, // Vec<(intermediate_dest, Option<intermediate_capture>)>
+  pub(super) promotion: Option<(BoardCoord, Box<Piece>)>
 }
 
 impl MovementEntry {
@@ -56,6 +55,13 @@ impl MovementEntry {
     self.movements.iter().any(|movement| {
       movement.1.is_some()
     })
+  }
+
+  pub(super) fn end_point(&self) -> BoardCoord {
+    match self.movements.last() {
+      Some(point) => point.0,
+      None => self.from
+    }
   }
 }
 
