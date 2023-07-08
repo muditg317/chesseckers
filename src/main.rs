@@ -1,16 +1,31 @@
 mod board;
 
-use std::{error::Error, thread::sleep, time::Duration};
+use std::{error::Error, thread::sleep, time::Duration, fs};
 
+use itertools::Itertools;
 use rand;
 
 use crate::board::{Player,Board,MoveData};
 
+fn _test() -> Result<(), Box<dyn Error>> {
+  let board_data = fs::read_to_string("test.txt")?;
+  for board_stat in &board_data.split("\n").chunks(8) {
+    for line in board_stat {
+      println!("{line}");
+    }
+    println!();
+    sleep(Duration::from_millis(250));
+  }
+  Ok(())
+}
+
 fn main() -> Result<(), Box<dyn Error + 'static>> {
+  // test()?;
   let mut board: Board = Default::default();
   // TODO: add "render" callback to board
   board.set_render_callback(|board| {
-    sleep(Duration::from_millis(500));
+    sleep(Duration::from_millis(750));
+    println!();
     board.print();
   });
   // let mut moves = &mut &(Default::default());
@@ -30,7 +45,7 @@ fn main() -> Result<(), Box<dyn Error + 'static>> {
   loop {
     // println!("next available moves: {:?}", moves);
     println!("\n\n");
-    sleep(Duration::from_millis(1000));
+    sleep(Duration::from_millis(2000));
     let num_opts = moves.num_moves();
     if num_opts == 0 {
       break;

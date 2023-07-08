@@ -1,0 +1,688 @@
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo  Xo  Xo
+                
+CpCpCpCpCpCpCpCp
+                
+CpCpCpCpCpCpCpCp
+                
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo  Xo  Xo
+      Cp        
+CpCpCp  CpCpCpCp
+                
+CpCpCpCpCpCpCpCp
+                
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo      Xo
+      Cp    Xo  
+CpCpCp  CpCpCpCp
+                
+CpCpCpCpCpCpCpCp
+                
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo      Xo
+      Cp    Xo  
+CpCpCp  CpCpCpCp
+  Cp            
+Cp  CpCpCpCpCpCp
+                
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo      Xo
+      Cp        
+CpCpCp  Cp  CpCp
+  Cp    Xo      
+Cp  CpCpCpCpCpCp
+                
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo      Xo
+      Cp        
+CpCpCp  Cp  CpCp
+  Cp            
+Cp  Cp  CpCpCpCp
+    Xo          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo      Xo
+      Cp        
+CpCpCp  Cp  CpCp
+  Cp            
+Cp  Cp  CpCpCpCp
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+  Xo  Xo      Xo
+    CpCp        
+CpCp    Cp  CpCp
+  Cp            
+Cp  Cp  CpCpCpCp
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+      Xo      Xo
+      Cp        
+CpCp  XoCp  CpCp
+  Cp            
+Cp  Cp  CpCpCpCp
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo  Xo  
+      Xo      Xo
+      Cp        
+CpCp  XoCpCpCpCp
+  Cp            
+Cp  Cp  Cp  CpCp
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo  Xo  Xo
+      Cp        
+CpCp  XoCpCpCpCp
+  Cp            
+Cp  Cp  Cp  CpCp
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo  Xo  Xo
+      Cp        
+CpCp  XoCpCpCpCp
+  Cp          Cp
+Cp  Cp  Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo      Xo
+      CpXo      
+CpCp  XoCpCpCpCp
+  Cp          Cp
+Cp  Cp  Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo      Xo
+      CpXo      
+CpCp  XoCpCpCpCp
+  CpCp        Cp
+Cp      Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo      Xo
+      Cp        
+CpCp  XoCp  CpCp
+  CpCp      XoCp
+Cp      Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo      Xo
+Cp    Cp        
+  Cp  XoCp  CpCp
+  CpCp      XoCp
+Cp      Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+      Xo      Xo
+Cp    Cp        
+  Cp    Cp  CpCp
+  Cp        XoCp
+CpXo    Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+Xo  Xo  Xo      
+Cp    Xo      Xo
+      Cp        
+  Cp    Cp  CpCp
+  Cp        XoCp
+CpXo    Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp        
+  Cp    Cp  CpCp
+  Cp        XoCp
+CpXo    Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp      Cp
+  Cp    Cp  Cp  
+  Cp        XoCp
+CpXo    Cp  Cp  
+    XO          
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp      Cp
+  Cp    Cp  Cp  
+  Cp          Cp
+CpXo    Cp  CpXo
+    XO          
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp      Cp
+CpCp    Cp  Cp  
+  Cp          Cp
+  Xo    Cp  CpXo
+    XO          
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp      Cp
+CpCp    Cp  Cp  
+  Cp          Cp
+  Xo    Cp  Cp  
+    XO      Xo  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp      Cp
+CpCp    Cp  Cp  
+  Cp          Cp
+  Xo    Cp  Cp  
+    XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Xo
+      Cp    CpCp
+CpCp    Cp      
+  Cp          Cp
+  Xo    Cp  Cp  
+    XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo        
+      Cp      Cp
+CpCp    CpXo    
+  Cp          Cp
+  Xo    Cp  Cp  
+    XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo        
+      Cp      Cp
+CpCp    CpXoCp  
+  Cp          Cp
+  Xo    Cp      
+    XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo        
+      Cp      Cp
+CpCp    CpXoCp  
+  Cp          Cp
+        Cp      
+Xo  XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo        
+      Cp      Cp
+CpCp    CpXoCp  
+  Cp          Cp
+        Cp      
+XO  XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Cp
+      Cp        
+CpCp    CpXoCp  
+  Cp          Cp
+        Cp      
+XO  XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo      
+CpXo  Xo      Cp
+      Cp        
+CpCp    Cp  Cp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo  Xo    Cp
+CpXo  Xo        
+      Cp        
+CpCp    Cp  Cp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+  Xo  Xo  Xo  Xo
+    Xo        Cp
+CpXo  Xo  Xo    
+      Cp        
+CpCp    Cp  Cp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+  Xo  Xo  Xo  Xo
+Cp  Xo        Cp
+  Xo  Xo  Xo    
+      Cp        
+CpCp    Cp  Cp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+  Xo  Xo  Xo  Xo
+Cp  Xo        Cp
+  Xo  Xo        
+      Cp    Xo  
+CpCp    Cp  Cp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+CpXo  Xo  Xo  Xo
+    Xo        Cp
+  Xo  Xo        
+      Cp    Xo  
+CpCp    Cp  Cp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+CpXo  Xo  Xo  Xo
+    Xo        Cp
+  Xo  Xo        
+      Cp        
+CpCp    CpXoCp  
+  Cp    Xo    Cp
+        Cp      
+XO  XO      XO  
+CpXo  Xo  Xo  Xo
+    Xo        Cp
+  Xo  Xo        
+      Cp        
+CpCp    CpXoCpCp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo  Xo
+    Xo  Xo    Cp
+  Xo  Xo        
+      Cp        
+CpCp    CpXoCpCp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo  Xo
+    Xo  Xo    Cp
+  Xo  Xo        
+      Cp    Cp  
+CpCp    CpXo  Cp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo  Xo
+    Xo  Xo    Cp
+  Xo            
+      CpXo  Cp  
+CpCp    CpXo  Cp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo  Xo
+    Xo  Xo    Cp
+  Xo            
+Cp    CpXo  Cp  
+  Cp    CpXo  Cp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Xo            
+Cp    CpXo  Cp  
+  Cp    CpXo  Cp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Xo        Cp  
+Cp    CpXo      
+  Cp    CpXo  Cp
+  Cp    Xo      
+        Cp      
+XO  XO      XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Xo        Cp  
+Cp    CpXo      
+  Cp    CpXo  Cp
+  Cp            
+      XoCp      
+XO  XO      XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Xo        Cp  
+CpCp  CpXo      
+        CpXo  Cp
+  Cp            
+      XoCp      
+XO  XO      XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Xo        Cp  
+CpCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  Xo  XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Xo        Cp  
+CpCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo      Xo    
+    Xo  Xo  XoCp
+  Cp        Cp  
+  Cp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo      Xo    
+        Xo  XoCp
+            Cp  
+XoCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo      Xo  Cp
+        Xo  Xo  
+            Cp  
+XoCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo      Xo  Cp
+        Xo      
+          XoCp  
+XoCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo      Xo  Cp
+        Xo  Cp  
+          Xo    
+XoCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo          Cp
+        Xo      
+          Xo  Xo
+XoCp  CpXo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo          Cp
+        Xo      
+      Cp  Xo  Xo
+XoCp    Xo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo          Cp
+                
+          Xo  Xo
+XoCpXo  Xo      
+        CpXo  Cp
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo          Cp
+                
+          Xo  Xo
+XoCpXo  Xo    Cp
+        CpXo    
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo          Cp
+                
+          Xo  Xo
+XoCp    Xo    Cp
+  Xo    CpXo    
+  Cp            
+        Cp      
+XO  XO  XO  XO  
+CpXo          Cp
+                
+          Xo  Xo
+XoCp    Xo    Cp
+  Xo    CpXo    
+  Cp    Cp      
+                
+XO  XO  XO  XO  
+CpXo          Cp
+                
+          Xo  Xo
+XoCp    Xo    Cp
+  Xo    Cp      
+  Cp            
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+                
+  Cp      Xo  Xo
+Xo      Xo    Cp
+  Xo    Cp      
+  Cp            
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+                
+  Cp      Xo    
+Xo      Xo  XoCp
+  Xo    Cp      
+  Cp            
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+  Cp            
+          Xo    
+Xo      Xo  XoCp
+  Xo    Cp      
+  Cp            
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+  Cp            
+          Xo    
+Xo      Xo  XoCp
+        Cp      
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+  Cp            
+          Xo  Cp
+Xo      Xo  Xo  
+        Cp      
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+  Cp            
+          Xo  Cp
+Xo      Xo      
+        CpXo    
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+CpXo          Cp
+  Cp          Cp
+          Xo    
+Xo      Xo      
+        CpXo    
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+Cp            Cp
+  CpXo        Cp
+          Xo    
+Xo      Xo      
+        CpXo    
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+    Xo        Cp
+          Xo    
+Xo      Xo      
+        CpXo    
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo      Xo    
+Xo      Xo      
+        CpXo    
+  CpXo          
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo      Xo    
+Xo      Xo      
+  Cp    CpXo    
+    Xo          
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo      Xo    
+Xo      Xo      
+  Cp    Cp      
+    Xo  Xo      
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo      Xo    
+XoCp    Xo      
+        Cp      
+    Xo  Xo      
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo      Xo    
+XoCp            
+      XoCp      
+    Xo  Xo      
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo      Xo    
+XoCp    Cp      
+      Xo        
+    Xo  Xo      
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo            
+XoCp    Cp  Xo  
+      Xo        
+    Xo  Xo      
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo    Cp      
+XoCp        Xo  
+      Xo        
+    Xo  Xo      
+      Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+              Cp
+  Xo    Cp      
+XoCp        Xo  
+      Xo        
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+        Cp    Cp
+  Xo            
+XoCp        Xo  
+      Xo        
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp          Cp
+        Cp    Cp
+                
+XoCpXo      Xo  
+      Xo        
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp    Cp    Cp
+              Cp
+                
+XoCpXo      Xo  
+      Xo        
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp    Cp    Cp
+              Cp
+                
+XoCpXo          
+      Xo      Xo
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp    Cp    Cp
+              Cp
+  Cp            
+Xo  Xo          
+      Xo      Xo
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp    Cp    Cp
+              Cp
+  Cp            
+Xo              
+  Xo  Xo      Xo
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp    Cp    Cp
+  Cp          Cp
+                
+Xo              
+  Xo  Xo      Xo
+        Xo      
+  Xo  Xo        
+XO  XO  XO  XO  
+CpCp    Cp    Cp
+  Cp          Cp
+                
+Xo              
+  Xo  Xo        
+        Xo  Xo  
+  Xo  Xo        
+XO  XO  XO  XO  

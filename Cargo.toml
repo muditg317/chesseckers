@@ -8,3 +8,4 @@ description = "A game where one player plays chess and the other plays checkers 
 
 [dependencies]
 rand = "0.8.5"
+itertools = "0.11.0"

@@ -7,8 +7,8 @@ use super::Player;
 
 #[derive(Debug)]
 pub struct Position {
-  r: usize,
-  c: usize,
+  // r: usize,
+  // c: usize,
   pub(super) piece: Option<Box<Piece>>
 }
 
@@ -16,8 +16,8 @@ pub struct Position {
 pub struct PieceCreationError;
 
 impl Position {
-  pub(super) fn new(r:usize,c:usize) -> Self {
-    Position { r, c, piece: None }
+  pub(super) fn new() -> Self {
+    Position { piece: None }
   }
   pub(super) fn clear(&mut self) {
     self.piece.take();
@@ -32,9 +32,9 @@ impl Position {
   pub(super) fn remove(&mut self) -> Box<Piece> {
     self.piece.take().unwrap()
   }
-  pub(super) fn set(&mut self, piece: Box<Piece>) -> &Box<Piece> {
-    self.piece.insert(piece)
-  }
+  // pub(super) fn set(&mut self, piece: Box<Piece>) -> &Box<Piece> {
+  //   self.piece.insert(piece)
+  // }
   pub(super) fn replace(&mut self, piece: Box<Piece>) -> Option<Box<Piece>> {
     self.piece.replace(piece)
   }

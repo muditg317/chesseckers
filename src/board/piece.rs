@@ -1,4 +1,4 @@
-use std::{fmt::{Debug, Display}, error::Error, time::Duration, thread::sleep};
+use std::{fmt::{Debug, Display}, error::Error};
 
 use super::{utils::{BoardCoord, BoardCoordS}, moves::{Moveable, MovementEntry}, Player};
 
@@ -20,12 +20,6 @@ impl Display for PieceMovementError {
   }
 }
 impl Error for PieceMovementError {}
-pub(super) struct MoveResult {
-
-}
-type MoveTestResult = Result<(), PieceMovementError>; // optional coords of piece to capture
-
-// type BoardInspectFn = impl Fn(BoardCoord) -> &'static Option<Box<Piece>>;
 
 pub(super) trait PieceTrait<InitArgs>: Moveable {
   fn new_piece(origin: BoardCoord, forward_dir: isize, args: InitArgs) -> Piece;
@@ -66,11 +60,11 @@ impl Piece {
       Self::CheckersPiece(_) => Player::Checkers
     }
   }
-  pub(super) fn on_moved(&self, from: BoardCoord, to: BoardCoord) {
-    println!("{self} moved from {from:?} to {to:?}");
+  pub(super) fn on_moved(&self, _from: BoardCoord, _to: BoardCoord) {
+    // println!("{self} moved from {from:?} to {to:?}");
   }
-  pub(super) fn on_taken(&self, death_loc: BoardCoord, by: &Box<Piece>) {
-    println!("{self} at {death_loc:?} taken by {by}");
+  pub(super) fn on_taken(&self, _death_loc: BoardCoord, _by: &Box<Piece>) {
+    // println!("{self} at {death_loc:?} taken by {by}");
   }
 }
 

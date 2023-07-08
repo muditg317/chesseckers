@@ -42,13 +42,13 @@ impl Board {
       println!();
     }
   }
-  pub fn debug(&self) -> () {
-    for r in 0..self.size {
-      for c in 0..self.size {
-        println!("{:?}", self[(r,c)]);
-      }
-    }
-  }
+  // pub fn debug(&self) -> () {
+  //   for r in 0..self.size {
+  //     for c in 0..self.size {
+  //       println!("{:?}", self[(r,c)]);
+  //     }
+  //   }
+  // }
   pub fn set_render_callback(&mut self, cb: impl Fn(&Self) + 'static) {
     // let _ = self.render_callback.insert(Box::new(cb));
     self.render_callback = Some(Box::new(cb));
@@ -168,7 +168,7 @@ impl Default for Board {
   fn default() -> Self {
     Board {
       size: BOARD_SIZE,
-      data: std::array::from_fn::<_,BOARD_SIZE,_>(|r| std::array::from_fn::<_,BOARD_SIZE,_>(|c| Position::new(r,c))),
+      data: std::array::from_fn::<_,BOARD_SIZE,_>(|_r| std::array::from_fn::<_,BOARD_SIZE,_>(|_c| Position::new())),
       next_moves: Default::default(),
       render_callback: None
     }
